@@ -12,10 +12,34 @@ class CustomTerminal {
     this.data = [];
   }
 
-  initialize() {
-    // TODO: Initialize your terminal with the main instance
+  initialize(db, language) {
+    DraftLog(console).addLineListener(process.stdin)
+    this.terminal = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    })
+
+    this.initializeTable(db, language)
+
   }
-  // TODO: You'll need more methods down here as well, be creative
+
+  initializeTable(db, language) {
+    const data = {}
+    const table = chalkTable(TABLE_OPTIONS, db)
+    
+    this.print = console.draft(table)
+    this.data = data
+  }
+  	
+  question(msg = '') {
+    return new Promise(resolve => this.terminal.question(msg, resolve))
+  }
+  
+  closeTerminal() {
+    this.terminal.close()
+  }
+
+
 }
 
 export default CustomTerminal;
